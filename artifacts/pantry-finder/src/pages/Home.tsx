@@ -4,7 +4,7 @@ import { useGeolocation, DEFAULT_COORDS } from "@/hooks/use-geolocation";
 import { EventCard } from "@/components/EventCard";
 import { SkeletonCard } from "@/components/SkeletonCard";
 import { SettingsPanel } from "@/components/SettingsPanel";
-import { Settings2, RefreshCw, Calendar as CalendarIcon, Leaf, AlertCircle } from "lucide-react";
+import { Settings, RefreshCw, Calendar as CalendarIcon, Leaf, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -12,6 +12,15 @@ export default function Home() {
   const [coords, setCoords] = useState(geoCoords || DEFAULT_COORDS);
   const [days, setDays] = useState(5);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return document.documentElement.classList.contains("dark");
+  });
+
+  function handleDarkModeToggle() {
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.classList.toggle("dark", next);
+  }
 
   // Sync geoCoords when they arrive and user hasn't manually changed them
   useEffect(() => {
@@ -97,7 +106,7 @@ export default function Home() {
                 className={`p-2.5 rounded-full transition-all ${isSettingsOpen ? 'bg-primary text-primary-foreground shadow-md shadow-primary/25' : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'}`}
                 aria-label="Settings"
               >
-                <Settings2 className="w-5 h-5" />
+                <Settings className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -121,13 +130,15 @@ export default function Home() {
         </header>
 
         <main className="px-5 pt-6">
-          <SettingsPanel 
+          <SettingsPanel
             isOpen={isSettingsOpen}
             coords={coords}
             days={days}
+            darkMode={darkMode}
             onCoordsChange={setCoords}
             onDaysChange={setDays}
             onResetLocation={handleResetLocation}
+            onDarkModeToggle={handleDarkModeToggle}
           />
 
           {/* Loading State */}
