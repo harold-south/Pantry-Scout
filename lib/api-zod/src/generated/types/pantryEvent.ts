@@ -5,9 +5,6 @@
  * Pantry Finder API
  * OpenAPI spec version: 0.1.0
  */
-export interface HealthStatus {
-  status: string;
-}
 
 export interface PantryEvent {
   /** Date in MM-DD-YYYY format */
@@ -27,30 +24,3 @@ export interface PantryEvent {
   /** ISO date string for sorting */
   isoDate: string;
 }
-
-export interface PantryEventsResponse {
-  events: PantryEvent[];
-  totalCount: number;
-  windowStart: string;
-  windowEnd: string;
-}
-
-export interface ErrorResponse {
-  error: string;
-  message: string;
-}
-
-export type GetPantryEventsParams = {
-  /**
-   * Latitude for distance calculation (defaults to Temple Square)
-   */
-  lat?: number;
-  /**
-   * Longitude for distance calculation (defaults to Temple Square)
-   */
-  lng?: number;
-  /**
-   * Number of days ahead to search
-   */
-  days?: number;
-};

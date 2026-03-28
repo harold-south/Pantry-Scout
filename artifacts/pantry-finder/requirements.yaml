@@ -1,0 +1,15 @@
+packages:
+  "framer-motion": "For smooth page transitions, list staggering, and collapsible animations"
+  "date-fns": "For elegant date formatting and parsing"
+  "lucide-react": "For crisp, modern SVG icons"
+  "clsx": "Utility for conditional classes"
+  "tailwind-merge": "Utility for merging tailwind classes"
+
+images:
+  - path: "artifacts/pantry-finder/public/images/hero-bg.png"
+    description: "Subtle abstract organic mesh gradient background in very light sage green and warm white, soft and airy, minimalist"
+    aspect_ratio: "16:9"
+
+notes:
+  - using @workspace/api-client-react for TanStack Query hooks and types
+  - expecting standard location overriding via simple lat/lng inputs in settings

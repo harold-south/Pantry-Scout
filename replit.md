@@ -2,7 +2,17 @@
 
 ## Overview
 
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+pnpm workspace monorepo using TypeScript. This project is a **Mobile Pantry Finder** web app that helps people find upcoming mobile food distribution events nearby.
+
+## Features
+
+- Fetches live data from AccessFood.org API (mobile pantry events, FoodProgramTypeId-4)
+- Calculates distances using Haversine formula from user's GPS location (or defaults to Temple Square, SLC)
+- Groups events by date with section headers, sorted by date then distance
+- Known building lookup from a curated property database
+- Settings panel to manually enter custom lat/lng coordinates and search window days
+- Loading skeleton, error, and empty states
+- "TODAY" badge for events happening today
 
 ## Stack
 

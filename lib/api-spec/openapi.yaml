@@ -1,15 +1,16 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Pantry Finder API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: pantry
+    description: Mobile pantry operations
 paths:
   /healthz:
     get:
@@ -24,6 +25,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /pantry/events:
+    get:
+      operationId: getPantryEvents
+      tags: [pantry]
+      summary: Get mobile pantry events
+      description: Returns upcoming mobile pantry events within range
+      parameters:
+        - name: lat
+          in: query
+          required: false
+          schema:
+            type: number
+          description: Latitude for distance calculation (defaults to Temple Square)
+        - name: lng
+          in: query
+          required: false
+          schema:
+            type: number
+          description: Longitude for distance calculation (defaults to Temple Square)
+        - name: days
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: Number of days ahead to search
+      responses:
+        "200":
+          description: List of pantry events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PantryEventsResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +73,67 @@ components:
           type: string
       required:
         - status
-
+    PantryEvent:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date in MM-DD-YYYY format
+        day:
+          type: string
+          description: Day of the week (e.g. Monday)
+        name:
+          type: string
+          description: Location name
+        address:
+          type: string
+          description: Full address
+        time:
+          type: string
+          description: Time range (e.g. 07:00 - 08:00)
+        distanceMiles:
+          type: number
+          description: Distance in miles from query point
+        buildingName:
+          type: string
+          description: Known building name (e.g. LDS Church)
+        isoDate:
+          type: string
+          description: ISO date string for sorting
+      required:
+        - date
+        - day
+        - name
+        - address
+        - time
+        - distanceMiles
+        - buildingName
+        - isoDate
+    PantryEventsResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/PantryEvent"
+        totalCount:
+          type: integer
+        windowStart:
+          type: string
+        windowEnd:
+          type: string
+      required:
+        - events
+        - totalCount
+        - windowStart
+        - windowEnd
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      required:
+        - error
+        - message

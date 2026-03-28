@@ -1,0 +1,53 @@
+Vision Statement
+To provide individuals with immediate, accurate access to local food resources by centralizing and simplifying the discovery of Mobile Pantries. This application empowers users to find the nearest food assistance quickly and reliably, ensuring that the technology serves the human need for stability and nutrition without technical barriers.
+
+1. Architectural Role (The Controller)
+The FastAPI server lives on the device as a Local Controller.
+
+Role: It acts as the local "Brain" managing the logic for the "Hero" application.
+
+Interfacing: It is the only component that reaches out to external internet endpoints.
+
+Processing: It performs all calculations and data cleaning locally to keep the user interface fast and responsive.
+
+2. External Data Integration (The Model)
+The server communicates with the internet to maintain data integrity:
+
+Fetch: Uses asynchronous requests to connect to external food resource API endpoints.
+
+Consolidate: Merges data from all external sources into a single, unified feed.
+
+Validation: Ensures all retrieved data is accurate and fresh before any calculations occur.
+
+3. Core Logic (The Brain)
+The server executes these specific mechanical operations locally:
+
+Haversine Formula: Calculates the distance in miles between two sets of GPS coordinates.
+
+Coordinate Hierarchy:
+
+User Input: Uses specific GPS coordinates if provided by the application.
+
+Fallback: Uses Temple Square (40.7707, 111.8911) as the default center point for Salt Lake City if no coordinates are sent.
+
+Filtering: Automatically filters the feed to include only Mobile Pantry locations.
+
+4. Output Formatting (The View)
+The server returns data in a specific structure designed for immediate use:
+
+Format: Plain text only (strictly no Markdown tables or the dash punctuation mark).
+
+Columns: Date, Location, Address, Time, Day of the week, and Distance.
+
+Sorting: Sorts all results by the calculated Distance from the center point (closest to furthest).
+
+5. Technical Stack (On Device)
+Language: Python.
+
+Framework: FastAPI.
+
+Server: Uvicorn (running on localhost).
+
+HTTP Client: httpx (for non blocking communication with internet endpoints).
+
+Math: Standard Python math library for trigonometric calculations.
